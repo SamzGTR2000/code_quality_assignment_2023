@@ -1,49 +1,62 @@
+# Index Number: EG/2020/4176
+# Name: Samarakoon P. G. C.
 from csv import *
 
+# dictionaries for store data for functions
 a = {}
 b = {}
 c = {}
+"""
+file - get data from csv
+No returns
+"""
 
-def lhr(file):  
-    with open(file) as h:
-        r = reader(h)
+def hotel_Rates(file):  
+    with open(file) as hotel:
+        r = reader(hotel)
         for row in r:
             a[row[0]] = float(row[1])
-
-def ler(file): 
-    with open(file) as e:
-        r = reader(e)
+"""
+file - get data from csv
+No returns
+"""
+def exchange_Rates(file): 
+    with open(file) as exchange:
+        r = reader(exchange)
         for row in r:
             b[row[0].upper()] = float(row[1]) * 1 
-
-def lfr(file):
-    with open(file) as f:
-        r = reader(f)
+"""
+file - get data from csv
+No returns
+"""
+def flight_Cost(file):
+    with open(file) as flight:
+        r = reader(flight)
         for row in r:
             c[row[0]] = float(row[1])
 
 def main():
-    lhr('data/hotel_rates.csv')
-    ler('data/exchange_rates.csv')
-    lfr('data/flight_costs.csv')
+    hotel_Rates('data/hotel_rates.csv')
+    exchange_Rates('data/exchange_rates.csv')
+    flight_Cost('data/flight_costs.csv')
 
-    d = input("Enter your destination: ").upper()
+    destination = input("Enter your destination: ").upper()
 
-    f = c.get(d, 0.0)
-    h = a.get(d, 0.0)
+    flight = c.get(destination, 0.0)
+    hotel = a.get(destination, 0.0)
 
     days = int(input("Enter your stay duration in days: "))
-    h *= days
-    total = f + h
+    hotel *= days
+    total = flight + hotel
 
-    print(f"Flight cost: USD {f:.2f}")
-    print(f"Hotel cost for {days} days: USD {h:.2f}")
+    print(f"Flight cost: USD {flight:.2f}")
+    print(f"Hotel cost for {days} days: USD {hotel:.2f}")
     print(f"Total: USD {total:.2f}")
 
     currency = input(f"Select your currency for final price estimation ({', '.join(b.keys())}): ")
 
-    p = total * b[currency]
-    print(f"Total in {currency}: {p:.2f}")
+    price = total * b[currency]
+    print(f"Total in {currency}: {price:.2f}")
 
 if __name__ == "__main__":
     main()
